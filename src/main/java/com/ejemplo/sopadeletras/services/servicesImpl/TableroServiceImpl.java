@@ -33,10 +33,10 @@ public class TableroServiceImpl implements TableroService {
         char[][] tablero = new char[tableroDto.getAlto()][tableroDto.getAncho()];
 
         //listado de palabras para el tablero
-        List<Palabras> palabrasList = (List<Palabras>) palabrasRepository.findAll();
+        List<Palabras> palabrasListado = new ArrayList<>();
 
 
-        for (Palabras palabras : palabrasList) {
+        for (Palabras palabras : generaListaPalabras(tableroDto)) {
 
             for (int j = 0; j < tableroDto.getAlto() * tableroDto.getAncho(); j++) {
                 //ubicar las palabras en el tablero aleatoriamente
@@ -46,6 +46,7 @@ public class TableroServiceImpl implements TableroService {
                 if (validarPosicion(tablero, palabras.getPalabra(), posicion, tableroDto, direccion)) {
                     //Carga las letras en la matriz en dependencia de la direccion
                     ubicarPalabra(posicion, tableroDto.getAlto(), tableroDto.getAncho(), tablero, palabras.getPalabra(), direccion);
+                    palabrasListado.add(palabras);
                     break;
                 }
             }
@@ -81,7 +82,7 @@ public class TableroServiceImpl implements TableroService {
         sopaLetra.setTablero(listado);
         tableroRepository.save(sopaLetra);
 
-        for (Palabras palabras : palabrasList) {
+        for (Palabras palabras : palabrasListado) {
             TableroPalabras tableroPalabras = new TableroPalabras();
             tableroPalabras.setTablero(sopaLetra);
             tableroPalabras.setPalabras(palabras);
@@ -327,15 +328,17 @@ public class TableroServiceImpl implements TableroService {
         char[] diccionario = {
                 'a','b','c',
                 'd','e','f',
+                'á','é','í',
                 'g','h','i',
                 'j','k','l',
                 'm','n','o',
                 'p','q','r',
                 's','t','u',
                 'v','w','x',
-                'y','z','ñ'
+                'y','z','ñ',
+                'ó','ú'
         };
-        return diccionario[(int) ramdom(26)];
+        return diccionario[(int) ramdom(31)];
     }
 
     private String generarDireccionRandom(TableroDto tableroDto){
@@ -359,5 +362,9 @@ public class TableroServiceImpl implements TableroService {
             direccion.add("diag_so");
         }
         return direccion.get((int) ramdom(direccion.size()-1));
+    }
+
+    private List<Palabras> generaListaPalabras(TableroDto tableroDto){
+        return palabrasRepository.palabrasRandom((int) ((tableroDto.getAlto()+tableroDto.getAncho())/1.5));
     }
 }
