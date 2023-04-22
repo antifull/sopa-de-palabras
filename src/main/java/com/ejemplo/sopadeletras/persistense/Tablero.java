@@ -43,10 +43,6 @@ public class Tablero implements Serializable {
     @Column(name = "tablero")
     private String tablero;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "tablero")
-    private List<TableroPalabras> TableroParabrasList;
-
     public String toString() {
         return "Tablero";
     }

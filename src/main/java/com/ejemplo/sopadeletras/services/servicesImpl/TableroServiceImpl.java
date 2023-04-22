@@ -92,6 +92,17 @@ public class TableroServiceImpl implements TableroService {
         return sopaLetra;
     }
 
+    @Override
+    public List<Palabras> listTablero(Long idTablero) {
+        Tablero tablero = tableroRepository.findTableroById(idTablero);
+        List<TableroPalabras> tableroPalabras = tableroPalabrasRepository.findAllByTablero(tablero);
+        List<Palabras> palabrasList = new ArrayList<>();
+        for (TableroPalabras tableroPalabra : tableroPalabras) {
+            palabrasList.add(tableroPalabra.getPalabras());
+        }
+        return palabrasList;
+    }
+
     private double ramdom(int maximo){
        return Math.floor(Math.random() * (maximo +1));
     }

@@ -28,10 +28,6 @@ public class Palabras implements Serializable {
     @Column(name = "palabra")
     private String palabra;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "palabras")
-    private List<TableroPalabras> TableroParabrasList;
-
     public String toString() {
         return "Palabras";
     }

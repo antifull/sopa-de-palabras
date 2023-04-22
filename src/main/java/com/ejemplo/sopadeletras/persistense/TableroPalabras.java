@@ -1,6 +1,8 @@
 package com.ejemplo.sopadeletras.persistense;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
@@ -23,11 +25,13 @@ public class TableroPalabras implements Serializable {
     private Long id;
 
     @NonNull
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_tablero")
     private Tablero tablero;
 
     @NonNull
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_palabras")
     private Palabras palabras;
