@@ -1,6 +1,7 @@
 package com.ejemplo.sopadeletras.services.servicesImpl;
 
 import com.ejemplo.sopadeletras.dto.TableroDto;
+import com.ejemplo.sopadeletras.dto.UbicacionDto;
 import com.ejemplo.sopadeletras.persistense.Palabras;
 import com.ejemplo.sopadeletras.persistense.Tablero;
 import com.ejemplo.sopadeletras.persistense.TableroPalabras;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,6 +36,7 @@ public class TableroServiceImpl implements TableroService {
 
         //listado de palabras para el tablero
         List<Palabras> palabrasListado = new ArrayList<>();
+        HashMap hashMap = new HashMap<>();
 
 
         for (Palabras palabras : generaListaPalabras(tableroDto)) {
@@ -45,7 +48,14 @@ public class TableroServiceImpl implements TableroService {
                 //validar posicion
                 if (validarPosicion(tablero, palabras.getPalabra(), posicion, tableroDto, direccion)) {
                     //Carga las letras en la matriz en dependencia de la direccion
-                    ubicarPalabra(posicion, tableroDto.getAlto(), tableroDto.getAncho(), tablero, palabras.getPalabra(), direccion);
+                    int[] posicionFinal = new int[2];
+                    ubicarPalabra(posicion, tableroDto.getAlto(), tableroDto.getAncho(), tablero, palabras.getPalabra(), direccion, posicionFinal);
+                    int[] pepe = new int[4];
+                    pepe[0] = posicion[0];
+                    pepe[1] = posicion[1];
+                    pepe[2] = posicionFinal[0];
+                    pepe[3] = posicionFinal[1];
+                    hashMap.put(palabras,pepe);
                     palabrasListado.add(palabras);
                     break;
                 }
@@ -87,6 +97,10 @@ public class TableroServiceImpl implements TableroService {
             tableroPalabras.setTablero(sopaLetra);
             tableroPalabras.setPalabras(palabras);
             tableroPalabras.setResuelto(false);
+            tableroPalabras.setSr(((int[])hashMap.get(palabras))[0]);
+            tableroPalabras.setSc(((int[])hashMap.get(palabras))[1]);
+            tableroPalabras.setEr(((int[])hashMap.get(palabras))[2]);
+            tableroPalabras.setEc(((int[])hashMap.get(palabras))[3]);
             tableroPalabrasRepository.save(tableroPalabras);
         }
         return sopaLetra;
@@ -103,11 +117,34 @@ public class TableroServiceImpl implements TableroService {
         return palabrasList;
     }
 
+    /**
+     * @param ubicacionDto Identificador del tablero
+     * @return List<Palabras>
+     */
+    @Override
+    public Boolean solvTablero(UbicacionDto ubicacionDto) {
+        Tablero tablero = tableroRepository.findTableroById(ubicacionDto.getIdTablero());
+        List<TableroPalabras> tableroPalabras = tableroPalabrasRepository.findAllByTablero(tablero);
+        for (TableroPalabras tableroPalabra : tableroPalabras) {
+            if (
+                    ubicacionDto.getSr() == tableroPalabra.getSr() &&
+                            ubicacionDto.getSc() == tableroPalabra.getSc() &&
+                            ubicacionDto.getEr() == tableroPalabra.getEr() &&
+                            ubicacionDto.getEc() == tableroPalabra.getEc()
+            ) {
+                tableroPalabra.setResuelto(true);
+                tableroPalabrasRepository.save(tableroPalabra);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private double ramdom(int maximo){
        return Math.floor(Math.random() * (maximo +1));
     }
 
-    private void ubicarPalabra(int[] posicion, int FILAS,int COLUMNAS,char[][] tablero,String palabra,String direccion){
+    private void ubicarPalabra(int[] posicion, int FILAS,int COLUMNAS,char[][] tablero,String palabra,String direccion, int[] posicionFinal){
         //Mejorar este proceso
         if(direccion.equals("izq_a_der")){
             for(int f=posicion[0]; f<FILAS; f++) {
@@ -115,6 +152,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c++;
                     }
@@ -129,6 +170,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c--;
                     }
@@ -143,6 +188,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[c][f] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c++;
                     }
@@ -157,6 +206,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[c][f] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c--;
                     }
@@ -171,6 +224,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c++;
                         f++;
@@ -186,6 +243,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c--;
                         f++;
@@ -201,6 +262,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c++;
                         f--;
@@ -216,6 +281,10 @@ public class TableroServiceImpl implements TableroService {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
+                        if(h+1==palabra.length()){
+                            posicionFinal[0]=c;
+                            posicionFinal[1]=f;
+                        }
                         //direccion
                         c--;
                         f--;

@@ -40,6 +40,22 @@ public class TableroPalabras implements Serializable {
     @Column(name = "resuelto")
     private boolean resuelto;
 
+    @Basic(optional = false)
+    @Column(name = "sr")
+    private int sr;
+
+    @Basic(optional = false)
+    @Column(name = "sc")
+    private int sc;
+
+    @Basic(optional = false)
+    @Column(name = "er")
+    private int er;
+
+    @Basic(optional = false)
+    @Column(name = "ec")
+    private int ec;
+
     public String toString() {
         return "TableroPalabras";
     }
