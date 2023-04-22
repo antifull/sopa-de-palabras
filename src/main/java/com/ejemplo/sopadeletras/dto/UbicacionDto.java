@@ -12,8 +12,6 @@ import javax.validation.constraints.NotNull;
 public class UbicacionDto {
 
     @NotNull(message = "EL valor no debe ser nulo")
-    @Min(message = "El valor no debe ser menor a 0",value = 0)
-    @Max(message = "El valor no debe ser mayor a 80",value = 80)
     Long idTablero;
 
     @NotNull(message = "EL valor no debe ser nulo")

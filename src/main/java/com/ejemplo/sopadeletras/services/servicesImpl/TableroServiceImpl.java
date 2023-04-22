@@ -70,23 +70,32 @@ public class TableroServiceImpl implements TableroService {
         System.out.print("------------------\n");
         //rellenar el tablero con letras aleatoriamente
         rellenarTablero(tablero);
+
+        String listado = "";
         for(int f=0; f<tableroDto.getAlto(); f++) {
             for(int c=0; c<tableroDto.getAncho(); c++) {
                 if (c == 0) {
+                    listado = listado.concat("|" +tablero[f][c] + "|");
                     System.out.print("|" +tablero[f][c] + "|");
-                } else {
+                }
+                else if (c ==tableroDto.getAncho()-1) {
+                    listado = listado.concat(tablero[f][c] + "|\n");
+                    System.out.print(tablero[f][c] + "|");
+                }
+                else {
+                    listado = listado.concat(tablero[f][c] + "|");
                     System.out.print(tablero[f][c] + "|");
                 }
             }
             System.out.println();
         }
 
-        String listado = "";
-        for(int f=0; f<tablero.length; f++) {
-            listado = (f==tablero.length-1) ?
-            listado.concat(new String(tablero[f]).concat("")) :
-            listado.concat(new String(tablero[f]).concat(","));
-        }
+//        String listado = "";
+//        for(int f=0; f<tablero.length; f++) {
+//            listado = (f==tablero.length-1) ?
+//            listado.concat(new String(tablero[f]).concat("")) :
+//            listado.concat(new String(tablero[f]).concat(","));
+//        }
 
         Tablero sopaLetra = new Tablero();
         sopaLetra.setTablero(listado);
@@ -115,6 +124,15 @@ public class TableroServiceImpl implements TableroService {
             palabrasList.add(tableroPalabra.getPalabras());
         }
         return palabrasList;
+    }
+
+    /**
+     * @param idTablero
+     * @return
+     */
+    @Override
+    public String viewTablero(Long idTablero) {
+        return tableroRepository.findTableroById(idTablero).getTablero();
     }
 
     /**

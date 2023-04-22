@@ -11,5 +11,6 @@ import java.util.List;
 public interface TableroService {
     Tablero addTablero(TableroDto tableroDto);
     List<Palabras> listTablero(Long idTablero);
+    String viewTablero(Long idTablero);
     Boolean solvTablero(UbicacionDto ubicacionDto);
 }

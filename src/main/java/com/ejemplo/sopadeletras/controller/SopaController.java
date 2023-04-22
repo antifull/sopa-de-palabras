@@ -23,14 +23,20 @@ public class SopaController {
 
     @PostMapping(path = "/add", consumes = "application/json")
     public ResponseEntity<Tablero> crearSopaPalabras(@RequestBody TableroDto tableroDto){
-        Tablero tablero = tableroService.addTablero(tableroDto);
-        return new ResponseEntity<>(tablero, HttpStatus.CREATED);
+        return new ResponseEntity<>(tableroService.addTablero(tableroDto), HttpStatus.CREATED);
+//        return ResponseEntity.created(tableroService.addTablero(tableroDto));
     }
 
     @GetMapping(path = "/list")
     public ResponseEntity<List<Palabras>> listadoPalabrasSopaPalabras(Long idTablero){
-        List<Palabras> listaTableroPalabras = tableroService.listTablero(idTablero);
-        return new ResponseEntity<>(listaTableroPalabras, HttpStatus.OK);
+        //return new ResponseEntity<>(tableroService.listTablero(idTablero), HttpStatus.OK);
+        return ResponseEntity.ok(tableroService.listTablero(idTablero));
+
+    }
+
+    @GetMapping(path = "/view")
+    public ResponseEntity<String> verSopaPalabras(Long idTablero){
+        return new ResponseEntity<>(tableroService.viewTablero(idTablero), HttpStatus.OK);
     }
 
     /**
@@ -39,9 +45,6 @@ public class SopaController {
      */
     @PutMapping(path = "/solv", consumes = "application/json")
     public ResponseEntity<?> encontrarPalabrasSopaPalabras(@RequestBody UbicacionDto ubicacionDto){
-        Boolean listaTableroPalabras = tableroService.solvTablero(ubicacionDto);
-        return listaTableroPalabras ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return tableroService.solvTablero(ubicacionDto) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
