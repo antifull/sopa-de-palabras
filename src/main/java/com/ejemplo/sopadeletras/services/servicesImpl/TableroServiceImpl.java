@@ -50,7 +50,7 @@ public class TableroServiceImpl implements TableroService {
                 if (validarPosicion(tablero, palabras.getPalabra(), posicion, tableroDto, direccion)) {
                     //Carga las letras en la matriz en dependencia de la direccion
                     int[] posicionFinal = new int[2];
-                    ubicarPalabra(posicion, tableroDto.getAlto(), tableroDto.getAncho(), tablero, palabras.getPalabra(), direccion, posicionFinal);
+                    ubicarPalabra(posicion, tablero, palabras.getPalabra(), direccion, posicionFinal);
                     int[] temp = new int[4];
                     temp[0] = posicion[0];
                     temp[1] = posicion[1];
@@ -94,7 +94,7 @@ public class TableroServiceImpl implements TableroService {
         sopaLetra.setTablero(listado);
         tableroRepository.save(sopaLetra);
 
-        //Se puede hace una factory
+        //Se puede hace un factory
         for (Palabras palabras : palabrasListado) {
             TableroPalabras tableroPalabras = new TableroPalabras();
             tableroPalabras.setTablero(sopaLetra);
@@ -156,7 +156,7 @@ public class TableroServiceImpl implements TableroService {
         return Math.floor(Math.random() * (maximo + 1));
     }
 
-    private void ubicarPalabra(int[] posicion, int FILAS, int COLUMNAS, char[][] tablero, String palabra, String direccion, int[] posicionFinal) {
+    private void ubicarPalabra(int[] posicion, char[][] tablero, String palabra, String direccion, int[] posicionFinal) {
         //ubicar los char
         for (int h = 0; h < palabra.length(); h++) {
             tablero[posicion[0]][posicion[1]] = palabra.charAt(h);
