@@ -4,7 +4,6 @@ import com.ejemplo.sopadeletras.dto.TableroDto;
 import com.ejemplo.sopadeletras.dto.UbicacionDto;
 import com.ejemplo.sopadeletras.persistense.Palabras;
 import com.ejemplo.sopadeletras.persistense.Tablero;
-import com.ejemplo.sopadeletras.persistense.TableroPalabras;
 
 import java.util.List;
 

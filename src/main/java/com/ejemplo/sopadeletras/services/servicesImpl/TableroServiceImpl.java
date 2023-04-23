@@ -55,15 +55,15 @@ public class TableroServiceImpl implements TableroService {
                     pepe[1] = posicion[1];
                     pepe[2] = posicionFinal[0];
                     pepe[3] = posicionFinal[1];
-                    hashMap.put(palabras,pepe);
+                    hashMap.put(palabras, pepe);
                     palabrasListado.add(palabras);
                     break;
                 }
             }
         }
-        for(int f=0; f<tableroDto.getAlto(); f++) {
-            for(int c=0; c<tableroDto.getAncho(); c++) {
-                System.out.print(tablero[f][c]+"|");
+        for (int f = 0; f < tableroDto.getAlto(); f++) {
+            for (int c = 0; c < tableroDto.getAncho(); c++) {
+                System.out.print(tablero[f][c] + "|");
             }
             System.out.println();
         }
@@ -72,17 +72,15 @@ public class TableroServiceImpl implements TableroService {
         rellenarTablero(tablero);
 
         String listado = "";
-        for(int f=0; f<tableroDto.getAlto(); f++) {
-            for(int c=0; c<tableroDto.getAncho(); c++) {
+        for (int f = 0; f < tableroDto.getAlto(); f++) {
+            for (int c = 0; c < tableroDto.getAncho(); c++) {
                 if (c == 0) {
-                    listado = listado.concat("|" +tablero[f][c] + "|");
-                    System.out.print("|" +tablero[f][c] + "|");
-                }
-                else if (c ==tableroDto.getAncho()-1) {
+                    listado = listado.concat("|" + tablero[f][c] + "|");
+                    System.out.print("|" + tablero[f][c] + "|");
+                } else if (c == tableroDto.getAncho() - 1) {
                     listado = listado.concat(tablero[f][c] + "|\n");
                     System.out.print(tablero[f][c] + "|");
-                }
-                else {
+                } else {
                     listado = listado.concat(tablero[f][c] + "|");
                     System.out.print(tablero[f][c] + "|");
                 }
@@ -106,10 +104,10 @@ public class TableroServiceImpl implements TableroService {
             tableroPalabras.setTablero(sopaLetra);
             tableroPalabras.setPalabras(palabras);
             tableroPalabras.setResuelto(false);
-            tableroPalabras.setSr(((int[])hashMap.get(palabras))[0]);
-            tableroPalabras.setSc(((int[])hashMap.get(palabras))[1]);
-            tableroPalabras.setEr(((int[])hashMap.get(palabras))[2]);
-            tableroPalabras.setEc(((int[])hashMap.get(palabras))[3]);
+            tableroPalabras.setSr(((int[]) hashMap.get(palabras))[0]);
+            tableroPalabras.setSc(((int[]) hashMap.get(palabras))[1]);
+            tableroPalabras.setEr(((int[]) hashMap.get(palabras))[2]);
+            tableroPalabras.setEc(((int[]) hashMap.get(palabras))[3]);
             tableroPalabrasRepository.save(tableroPalabras);
         }
         return sopaLetra;
@@ -158,21 +156,21 @@ public class TableroServiceImpl implements TableroService {
         return false;
     }
 
-    private double ramdom(int maximo){
-       return Math.floor(Math.random() * (maximo +1));
+    private double ramdom(int maximo) {
+        return Math.floor(Math.random() * (maximo + 1));
     }
 
-    private void ubicarPalabra(int[] posicion, int FILAS,int COLUMNAS,char[][] tablero,String palabra,String direccion, int[] posicionFinal){
+    private void ubicarPalabra(int[] posicion, int FILAS, int COLUMNAS, char[][] tablero, String palabra, String direccion, int[] posicionFinal) {
         //Mejorar este proceso
-        if(direccion.equals("izq_a_der")){
-            for(int f=posicion[0]; f<FILAS; f++) {
-                for(int c=posicion[1]; c<COLUMNAS; c++) {
+        if (direccion.equals("izq_a_der")) {
+            for (int f = posicion[0]; f < FILAS; f++) {
+                for (int c = posicion[1]; c < COLUMNAS; c++) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c++;
@@ -182,15 +180,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("der_a_izq")){
-            for(int f=posicion[0]; f<FILAS; f++) {
-                for(int c=posicion[1]; c>0; c--) {
+        if (direccion.equals("der_a_izq")) {
+            for (int f = posicion[0]; f < FILAS; f++) {
+                for (int c = posicion[1]; c > 0; c--) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c--;
@@ -200,15 +198,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("arr_a_abj")){
-            for(int f=posicion[1]; f<FILAS; f++) {
-                for(int c=posicion[0]; c<COLUMNAS; c++) {
+        if (direccion.equals("arr_a_abj")) {
+            for (int f = posicion[1]; f < FILAS; f++) {
+                for (int c = posicion[0]; c < COLUMNAS; c++) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[c][f] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c++;
@@ -218,15 +216,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("abj_a_arr")){
-            for(int f=posicion[1]; f<FILAS; f++) {
-                for(int c=posicion[0]; c>0; c--) {
+        if (direccion.equals("abj_a_arr")) {
+            for (int f = posicion[1]; f < FILAS; f++) {
+                for (int c = posicion[0]; c > 0; c--) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[c][f] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c--;
@@ -236,15 +234,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("diag_se")){
-            for(int f=posicion[0]; f<FILAS; f++) {
-                for(int c=posicion[1]; c<COLUMNAS; c++) {
+        if (direccion.equals("diag_se")) {
+            for (int f = posicion[0]; f < FILAS; f++) {
+                for (int c = posicion[1]; c < COLUMNAS; c++) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c++;
@@ -255,15 +253,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("diag_so")){
-            for(int f=posicion[0]; f<FILAS; f++) {
-                for(int c=posicion[1]; c>0; c--) {
+        if (direccion.equals("diag_so")) {
+            for (int f = posicion[0]; f < FILAS; f++) {
+                for (int c = posicion[1]; c > 0; c--) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c--;
@@ -274,15 +272,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("diag_ne")){
-            for(int f=posicion[0]; f>0; f--) {
-                for(int c=posicion[1]; c<COLUMNAS; c++) {
+        if (direccion.equals("diag_ne")) {
+            for (int f = posicion[0]; f > 0; f--) {
+                for (int c = posicion[1]; c < COLUMNAS; c++) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c++;
@@ -293,15 +291,15 @@ public class TableroServiceImpl implements TableroService {
                 break;
             }
         }
-        if(direccion.equals("diag_no")){
-            for(int f=posicion[0]; f>0; f--) {
-                for(int c=posicion[1]; c>0; c--) {
+        if (direccion.equals("diag_no")) {
+            for (int f = posicion[0]; f > 0; f--) {
+                for (int c = posicion[1]; c > 0; c--) {
                     //sacar los char
                     for (int h = 0; h < palabra.length(); h++) {
                         tablero[f][c] = palabra.charAt(h);
-                        if(h+1==palabra.length()){
-                            posicionFinal[0]=c;
-                            posicionFinal[1]=f;
+                        if (h + 1 == palabra.length()) {
+                            posicionFinal[0] = c;
+                            posicionFinal[1] = f;
                         }
                         //direccion
                         c--;
@@ -314,87 +312,87 @@ public class TableroServiceImpl implements TableroService {
         }
     }
 
-    private boolean validarPosicion(char[][] tablero, String palabras, int[] posicion, TableroDto tableroDto, String direccion){
-        if(posicion[1]+palabras.length()<=tableroDto.getAncho() && direccion.equals("izq_a_der")){
+    private boolean validarPosicion(char[][] tablero, String palabras, int[] posicion, TableroDto tableroDto, String direccion) {
+        if (posicion[1] + palabras.length() <= tableroDto.getAncho() && direccion.equals("izq_a_der")) {
             for (int i = 0; i < palabras.length(); i++) {
-                char izq_a_der = tablero[posicion[0]][posicion[1]+i];
-                if (izq_a_der!='\u0000' && palabras.charAt(i)!=izq_a_der){
+                char izq_a_der = tablero[posicion[0]][posicion[1] + i];
+                if (izq_a_der != '\u0000' && palabras.charAt(i) != izq_a_der) {
                     return false;
                 }
             }
             return true;
         }
-        if(posicion[1]-palabras.length()>=0 && direccion.equals("der_a_izq")){
+        if (posicion[1] - palabras.length() >= 0 && direccion.equals("der_a_izq")) {
             for (int i = 0; i < palabras.length(); i++) {
-                char der_a_izq = tablero[posicion[0]][posicion[1]-i];
-                if (der_a_izq!='\u0000' && palabras.charAt(i)!=der_a_izq){
+                char der_a_izq = tablero[posicion[0]][posicion[1] - i];
+                if (der_a_izq != '\u0000' && palabras.charAt(i) != der_a_izq) {
                     return false;
                 }
             }
             return true;
         }
-        if(posicion[0]+palabras.length()<=tableroDto.getAlto() && direccion.equals("arr_a_abj")){
+        if (posicion[0] + palabras.length() <= tableroDto.getAlto() && direccion.equals("arr_a_abj")) {
             for (int i = 0; i < palabras.length(); i++) {
-                char arr_a_abj = tablero[posicion[0]+i][posicion[1]];
-                if (arr_a_abj!='\u0000' && palabras.charAt(i)!=arr_a_abj){
+                char arr_a_abj = tablero[posicion[0] + i][posicion[1]];
+                if (arr_a_abj != '\u0000' && palabras.charAt(i) != arr_a_abj) {
                     return false;
                 }
             }
             return true;
         }
-        if(posicion[0]-palabras.length()>=0 && direccion.equals("abj_a_arr")){
+        if (posicion[0] - palabras.length() >= 0 && direccion.equals("abj_a_arr")) {
             for (int i = 0; i < palabras.length(); i++) {
-                char abj_a_arr = tablero[posicion[0]-i][posicion[1]];
-                if (abj_a_arr!='\u0000' && palabras.charAt(i)!=abj_a_arr){
+                char abj_a_arr = tablero[posicion[0] - i][posicion[1]];
+                if (abj_a_arr != '\u0000' && palabras.charAt(i) != abj_a_arr) {
                     return false;
                 }
             }
             return true;
         }
         //DIAGONALES
-        if(direccion.equals("diag_se") &&
-                posicion[0]+palabras.length()<=tableroDto.getAlto() &&
-                posicion[1]+palabras.length()<=tableroDto.getAncho()
-        ){
+        if (direccion.equals("diag_se") &&
+                posicion[0] + palabras.length() <= tableroDto.getAlto() &&
+                posicion[1] + palabras.length() <= tableroDto.getAncho()
+        ) {
             for (int i = 0; i < palabras.length(); i++) {
-                char izq_a_der = tablero[posicion[0]+i][posicion[1]+i];
-                if (izq_a_der!='\u0000' && palabras.charAt(i)!=izq_a_der){
+                char izq_a_der = tablero[posicion[0] + i][posicion[1] + i];
+                if (izq_a_der != '\u0000' && palabras.charAt(i) != izq_a_der) {
                     return false;
                 }
             }
             return true;
         }
-        if(direccion.equals("diag_so") &&
-                posicion[0]+palabras.length()<=tableroDto.getAlto() &&
-                posicion[1]-palabras.length()>=0
-        ){
+        if (direccion.equals("diag_so") &&
+                posicion[0] + palabras.length() <= tableroDto.getAlto() &&
+                posicion[1] - palabras.length() >= 0
+        ) {
             for (int i = 0; i < palabras.length(); i++) {
-                char der_a_izq = tablero[posicion[0]+i][posicion[1]-i];
-                if (der_a_izq!='\u0000' && palabras.charAt(i)!=der_a_izq){
+                char der_a_izq = tablero[posicion[0] + i][posicion[1] - i];
+                if (der_a_izq != '\u0000' && palabras.charAt(i) != der_a_izq) {
                     return false;
                 }
             }
             return true;
         }
-        if(direccion.equals("diag_ne") &&
-                posicion[0]-palabras.length()>=0 &&
-                posicion[1]+palabras.length()<=tableroDto.getAncho()
-        ){
+        if (direccion.equals("diag_ne") &&
+                posicion[0] - palabras.length() >= 0 &&
+                posicion[1] + palabras.length() <= tableroDto.getAncho()
+        ) {
             for (int i = 0; i < palabras.length(); i++) {
-                char izq_a_der = tablero[posicion[0]-i][posicion[1]+i];
-                if (izq_a_der!='\u0000' && palabras.charAt(i)!=izq_a_der){
+                char izq_a_der = tablero[posicion[0] - i][posicion[1] + i];
+                if (izq_a_der != '\u0000' && palabras.charAt(i) != izq_a_der) {
                     return false;
                 }
             }
             return true;
         }
-        if(direccion.equals("diag_no") &&
-                posicion[0]-palabras.length()>=0 &&
-                posicion[1]-palabras.length()>=0
-        ){
+        if (direccion.equals("diag_no") &&
+                posicion[0] - palabras.length() >= 0 &&
+                posicion[1] - palabras.length() >= 0
+        ) {
             for (int i = 0; i < palabras.length(); i++) {
-                char der_a_izq = tablero[posicion[0]-i][posicion[1]-i];
-                if (der_a_izq!='\u0000' && palabras.charAt(i)!=der_a_izq){
+                char der_a_izq = tablero[posicion[0] - i][posicion[1] - i];
+                if (der_a_izq != '\u0000' && palabras.charAt(i) != der_a_izq) {
                     return false;
                 }
             }
@@ -404,65 +402,65 @@ public class TableroServiceImpl implements TableroService {
         return false;
     }
 
-    private int[] posicionRandom(int alto, int ancho){
+    private int[] posicionRandom(int alto, int ancho) {
         //generar posicion aleatoria
         int[] posicion = new int[2];
-        posicion[0] = (int) ramdom(alto-1);
-        posicion[1] = (int) ramdom(ancho-1);
+        posicion[0] = (int) ramdom(alto - 1);
+        posicion[1] = (int) ramdom(ancho - 1);
         return posicion;
     }
 
-    private void rellenarTablero(char[][] tablero){
-        for(int f=0; f<tablero.length; f++) {
-            for(int c=0; c<tablero[f].length; c++) {
-                if(tablero[f][c]=='\u0000'){
-                    tablero[f][c]=generaLetraRandom();
+    private void rellenarTablero(char[][] tablero) {
+        for (int f = 0; f < tablero.length; f++) {
+            for (int c = 0; c < tablero[f].length; c++) {
+                if (tablero[f][c] == '\u0000') {
+                    tablero[f][c] = generaLetraRandom();
                 }
             }
         }
     }
 
-    private char generaLetraRandom(){
+    private char generaLetraRandom() {
         char[] diccionario = {
-                'a','b','c',
-                'd','e','f',
-                'á','é','í',
-                'g','h','i',
-                'j','k','l',
-                'm','n','o',
-                'p','q','r',
-                's','t','u',
-                'v','w','x',
-                'y','z','ñ',
-                'ó','ú'
+                'a', 'b', 'c',
+                'd', 'e', 'f',
+                'á', 'é', 'í',
+                'g', 'h', 'i',
+                'j', 'k', 'l',
+                'm', 'n', 'o',
+                'p', 'q', 'r',
+                's', 't', 'u',
+                'v', 'w', 'x',
+                'y', 'z', 'ñ',
+                'ó', 'ú'
         };
         return diccionario[(int) ramdom(31)];
     }
 
-    private String generarDireccionRandom(TableroDto tableroDto){
+    private String generarDireccionRandom(TableroDto tableroDto) {
         ArrayList<String> direccion = new ArrayList<>();
-        if (tableroDto.isDer_a_izq()){
+        if (tableroDto.isDer_a_izq()) {
             direccion.add("der_a_izq");
         }
-        if (tableroDto.isIzq_a_der()){
+        if (tableroDto.isIzq_a_der()) {
             direccion.add("izq_a_der");
         }
-        if (tableroDto.isArr_a_abj()){
+        if (tableroDto.isArr_a_abj()) {
             direccion.add("arr_a_abj");
         }
-        if (tableroDto.isAbj_a_arr()){
+        if (tableroDto.isAbj_a_arr()) {
             direccion.add("der_a_izq");
         }
-        if (tableroDto.isDiagonal()){
+        if (tableroDto.isDiagonal()) {
             direccion.add("diag_ne");
             direccion.add("diag_no");
             direccion.add("diag_se");
             direccion.add("diag_so");
         }
-        return direccion.get((int) ramdom(direccion.size()-1));
+        return direccion.get((int) ramdom(direccion.size() - 1));
     }
 
-    private List<Palabras> generaListaPalabras(TableroDto tableroDto){
-        return palabrasRepository.palabrasRandom((int) ((tableroDto.getAlto()+tableroDto.getAncho())/1.5));
+    private List<Palabras> generaListaPalabras(TableroDto tableroDto) {
+        return palabrasRepository.palabrasRandom((int) ((tableroDto.getAlto() + tableroDto.getAncho()) / 1.5));
     }
 }
