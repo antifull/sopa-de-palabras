@@ -42,19 +42,23 @@ public class TableroPalabras implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "sr")
-    private int sr;
+    private Long sr;
 
     @Basic(optional = false)
     @Column(name = "sc")
-    private int sc;
+    private Long sc;
 
     @Basic(optional = false)
     @Column(name = "er")
-    private int er;
+    private Long er;
 
     @Basic(optional = false)
     @Column(name = "ec")
-    private int ec;
+    private Long ec;
+
+    @Basic(optional = false)
+    @Column(name = "direccion")
+    private String direccion;
 
     public String toString() {
         return "TableroPalabras";

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -50,12 +51,14 @@ public class TableroServiceImpl implements TableroService {
                 if (validarPosicion(tablero, palabras.getPalabra(), posicion, tableroDto, direccion)) {
                     //Carga las letras en la matriz en dependencia de la direccion
                     int[] posicionFinal = new int[2];
+                    // hacer un DTO para esto
+                    String[] temp = new String[5];
+                    temp[0] = String.valueOf(posicion[0]);
+                    temp[1] = String.valueOf(posicion[1]);
                     ubicarPalabra(posicion, tablero, palabras.getPalabra(), direccion, posicionFinal);
-                    int[] temp = new int[4];
-                    temp[0] = posicion[0];
-                    temp[1] = posicion[1];
-                    temp[2] = posicionFinal[0];
-                    temp[3] = posicionFinal[1];
+                    temp[2] = String.valueOf(posicionFinal[0]);
+                    temp[3] = String.valueOf(posicionFinal[1]);
+                    temp[4] = direccion;
                     hashMap.put(palabras, temp);
                     palabrasListado.add(palabras);
                     break;
@@ -100,10 +103,11 @@ public class TableroServiceImpl implements TableroService {
             tableroPalabras.setTablero(sopaLetra);
             tableroPalabras.setPalabras(palabras);
             tableroPalabras.setResuelto(false);
-            tableroPalabras.setSr(((int[]) hashMap.get(palabras))[0]);
-            tableroPalabras.setSc(((int[]) hashMap.get(palabras))[1]);
-            tableroPalabras.setEr(((int[]) hashMap.get(palabras))[2]);
-            tableroPalabras.setEc(((int[]) hashMap.get(palabras))[3]);
+            tableroPalabras.setSr(Long.valueOf(((String[]) hashMap.get(palabras))[0]));
+            tableroPalabras.setSc(Long.valueOf(((String[]) hashMap.get(palabras))[1]));
+            tableroPalabras.setEr(Long.valueOf(((String[]) hashMap.get(palabras))[2]));
+            tableroPalabras.setEc(Long.valueOf(((String[]) hashMap.get(palabras))[3]));
+            tableroPalabras.setDireccion(String.valueOf(((String[]) hashMap.get(palabras))[4]));
             tableroPalabrasRepository.save(tableroPalabras);
         }
         return sopaLetra;
@@ -139,12 +143,12 @@ public class TableroServiceImpl implements TableroService {
         List<TableroPalabras> tableroPalabras = tableroPalabrasRepository.findAllByTablero(tablero);
         for (TableroPalabras tableroPalabra : tableroPalabras) {
             if (
-                    ubicacionDto.getSr() == tableroPalabra.getSr() &&
-                            ubicacionDto.getSc() == tableroPalabra.getSc() &&
-                            ubicacionDto.getEr() == tableroPalabra.getEr() &&
-                            ubicacionDto.getEc() == tableroPalabra.getEc()
+                    ubicacionDto.getSr() == tableroPalabra.getSr() && ubicacionDto.getSc() == tableroPalabra.getSc() &&
+                            ubicacionDto.getEr() == tableroPalabra.getEr() && ubicacionDto.getEc() == tableroPalabra.getEc()
             ) {
+                tablero.setTablero(actualizarPalabraEncontrada(tablero, tableroPalabra));
                 tableroPalabra.setResuelto(true);
+                tableroRepository.save(tablero);
                 tableroPalabrasRepository.save(tableroPalabra);
                 return true;
             }
@@ -161,36 +165,28 @@ public class TableroServiceImpl implements TableroService {
         for (int h = 0; h < palabra.length(); h++) {
             tablero[posicion[0]][posicion[1]] = palabra.charAt(h);
             if (h == palabra.length() - 1) {
-                posicionFinal[0] = posicion[1];
-                posicionFinal[1] = posicion[0];
-            }
-            else if (direccion.equals("izq_a_der")) {
+                posicionFinal[0] = posicion[0];
+                posicionFinal[1] = posicion[1];
+            } else if (direccion.equals("izq_a_der")) {
                 //direccion
                 posicion[1]++;
-            }
-            else if (direccion.equals("der_a_izq")) {
+            } else if (direccion.equals("der_a_izq")) {
                 //direccion
                 posicion[1]--;
-            }
-            else if (direccion.equals("arr_a_abj")) {
+            } else if (direccion.equals("arr_a_abj")) {
                 posicion[0]++;
-            }
-            else if (direccion.equals("abj_a_arr")) {
+            } else if (direccion.equals("abj_a_arr")) {
                 posicion[0]--;
-            }
-            else if (direccion.equals("diag_se")) {
+            } else if (direccion.equals("diag_se")) {
                 posicion[0]++;
                 posicion[1]++;
-            }
-            else if (direccion.equals("diag_so")) {
+            } else if (direccion.equals("diag_so")) {
                 posicion[0]++;
                 posicion[1]--;
-            }
-            else if (direccion.equals("diag_ne")) {
+            } else if (direccion.equals("diag_ne")) {
                 posicion[0]--;
                 posicion[1]++;
-            }
-            else if (direccion.equals("diag_no")) {
+            } else if (direccion.equals("diag_no")) {
                 posicion[0]--;
                 posicion[1]--;
             }
@@ -347,5 +343,69 @@ public class TableroServiceImpl implements TableroService {
 
     private List<Palabras> generaListaPalabras(TableroDto tableroDto) {
         return palabrasRepository.palabrasRandom((int) ((tableroDto.getAlto() + tableroDto.getAncho()) / 1.5));
+    }
+
+    private String actualizarPalabraEncontrada(Tablero tablero, TableroPalabras tableroPalabra) {
+        Optional<Palabras> palabra = palabrasRepository.findById(tableroPalabra.getPalabras().getId());
+        String[] tab = tablero.getTablero().split("\n");
+        String[][] lol = new String[tab.length][];
+        for (int i = 0; i < tab.length; i++) {
+            lol[i] = tab[i].split("\\|");
+        }
+        int sr = Math.toIntExact(tableroPalabra.getSr());
+        int sc = Math.toIntExact(tableroPalabra.getSc())+1;
+        for (int h = 0; h < palabra.get().getPalabra().length(); h++) {
+            lol[sr][sc] = String.valueOf(palabra.get().getPalabra().charAt(h)).toUpperCase();
+            switch (tableroPalabra.getDireccion()) {
+                case "izq_a_der":
+                    //direccion
+                    sc++;
+                    break;
+                case "der_a_izq":
+                    //direccion
+                    sc--;
+                    break;
+                case "arr_a_abj":
+                    sr++;
+                    break;
+                case "abj_a_arr":
+                    sr--;
+                    break;
+                case "diag_se":
+                    sr++;
+                    sc++;
+                    break;
+                case "diag_so":
+                    sr++;
+                    sc--;
+                    break;
+                case "diag_ne":
+                    sr--;
+                    sc++;
+                    break;
+                case "diag_no":
+                    sr--;
+                    sc--;
+                    break;
+            }
+        }
+
+        String listado = "";
+        for (String[] strings : lol) {
+            for (int c = 1; c < strings.length; c++) {
+                if (c == 1) {
+                    listado = listado.concat("|" + strings[c] + "|");
+                    System.out.print("|" + strings[c] + "|");
+                } else if (c == strings.length -1) {
+                    listado = listado.concat(strings[c] + "|\n");
+                    System.out.print(strings[c] + "|");
+                } else {
+                    listado = listado.concat(strings[c] + "|");
+                    System.out.print(strings[c] + "|");
+                }
+            }
+            System.out.println();
+        }
+        return listado;
     }
 }
