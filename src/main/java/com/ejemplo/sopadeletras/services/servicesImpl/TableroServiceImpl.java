@@ -320,6 +320,12 @@ public class TableroServiceImpl implements TableroService {
 
     private String generarDireccionRandom(TableroDto tableroDto) {
         ArrayList<String> direccion = new ArrayList<>();
+        if (tableroDto.isDiagonal()) {
+            direccion.add("diag_ne");
+            direccion.add("diag_no");
+            direccion.add("diag_se");
+            direccion.add("diag_so");
+        }
         if (tableroDto.isDer_a_izq()) {
             direccion.add("der_a_izq");
         }
@@ -331,12 +337,6 @@ public class TableroServiceImpl implements TableroService {
         }
         if (tableroDto.isAbj_a_arr()) {
             direccion.add("der_a_izq");
-        }
-        if (tableroDto.isDiagonal()) {
-            direccion.add("diag_ne");
-            direccion.add("diag_no");
-            direccion.add("diag_se");
-            direccion.add("diag_so");
         }
         return direccion.get((int) ramdom(direccion.size() - 1));
     }
