@@ -28,6 +28,7 @@ public class TableroServiceImpl implements TableroService {
 
     @Autowired
     TableroPalabrasRepository tableroPalabrasRepository;
+
     @Override
     public Tablero addTablero(TableroDto tableroDto) {
 
@@ -156,153 +157,42 @@ public class TableroServiceImpl implements TableroService {
     }
 
     private void ubicarPalabra(int[] posicion, int FILAS, int COLUMNAS, char[][] tablero, String palabra, String direccion, int[] posicionFinal) {
-        //Mejorar este proceso
-        if (direccion.equals("izq_a_der")) {
-            for (int f = posicion[0]; f < FILAS; f++) {
-                for (int c = posicion[1]; c < COLUMNAS; c++) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[f][c] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c++;
-                    }
-                    break;
-                }
-                break;
+        //ubicar los char
+        for (int h = 0; h < palabra.length(); h++) {
+            tablero[posicion[0]][posicion[1]] = palabra.charAt(h);
+            if (h == palabra.length() - 1) {
+                posicionFinal[0] = posicion[1];
+                posicionFinal[1] = posicion[0];
             }
-        }
-        if (direccion.equals("der_a_izq")) {
-            for (int f = posicion[0]; f < FILAS; f++) {
-                for (int c = posicion[1]; c > 0; c--) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[f][c] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c--;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("izq_a_der")) {
+                //direccion
+                posicion[1]++;
             }
-        }
-        if (direccion.equals("arr_a_abj")) {
-            for (int f = posicion[1]; f < FILAS; f++) {
-                for (int c = posicion[0]; c < COLUMNAS; c++) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[c][f] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c++;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("der_a_izq")) {
+                //direccion
+                posicion[1]--;
             }
-        }
-        if (direccion.equals("abj_a_arr")) {
-            for (int f = posicion[1]; f < FILAS; f++) {
-                for (int c = posicion[0]; c > 0; c--) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[c][f] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c--;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("arr_a_abj")) {
+                posicion[0]++;
             }
-        }
-        if (direccion.equals("diag_se")) {
-            for (int f = posicion[0]; f < FILAS; f++) {
-                for (int c = posicion[1]; c < COLUMNAS; c++) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[f][c] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c++;
-                        f++;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("abj_a_arr")) {
+                posicion[0]--;
             }
-        }
-        if (direccion.equals("diag_so")) {
-            for (int f = posicion[0]; f < FILAS; f++) {
-                for (int c = posicion[1]; c > 0; c--) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[f][c] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c--;
-                        f++;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("diag_se")) {
+                posicion[0]++;
+                posicion[1]++;
             }
-        }
-        if (direccion.equals("diag_ne")) {
-            for (int f = posicion[0]; f > 0; f--) {
-                for (int c = posicion[1]; c < COLUMNAS; c++) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[f][c] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c++;
-                        f--;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("diag_so")) {
+                posicion[0]++;
+                posicion[1]--;
             }
-        }
-        if (direccion.equals("diag_no")) {
-            for (int f = posicion[0]; f > 0; f--) {
-                for (int c = posicion[1]; c > 0; c--) {
-                    //sacar los char
-                    for (int h = 0; h < palabra.length(); h++) {
-                        tablero[f][c] = palabra.charAt(h);
-                        if (h + 1 == palabra.length()) {
-                            posicionFinal[0] = c;
-                            posicionFinal[1] = f;
-                        }
-                        //direccion
-                        c--;
-                        f--;
-                    }
-                    break;
-                }
-                break;
+            else if (direccion.equals("diag_ne")) {
+                posicion[0]--;
+                posicion[1]++;
+            }
+            else if (direccion.equals("diag_no")) {
+                posicion[0]--;
+                posicion[1]--;
             }
         }
     }
