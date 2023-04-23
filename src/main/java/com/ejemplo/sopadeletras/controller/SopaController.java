@@ -29,8 +29,8 @@ public class SopaController {
 
     @GetMapping(path = "/list")
     public ResponseEntity<List<Palabras>> listadoPalabrasSopaPalabras(Long idTablero){
-        //return new ResponseEntity<>(tableroService.listTablero(idTablero), HttpStatus.OK);
-        return ResponseEntity.ok(tableroService.listTablero(idTablero));
+        return new ResponseEntity<>(tableroService.listTablero(idTablero), HttpStatus.OK);
+//        return ResponseEntity.ok(tableroService.listTablero(idTablero));
 
     }
 

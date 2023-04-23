@@ -5,4 +5,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface TableroRepository extends PagingAndSortingRepository<Tablero, Long> {
     Tablero findTableroById(Long id);
+    boolean existsTableroById(Long id);
 }

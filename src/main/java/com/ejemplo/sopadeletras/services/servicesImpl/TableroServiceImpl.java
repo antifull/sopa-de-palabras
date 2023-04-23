@@ -50,12 +50,12 @@ public class TableroServiceImpl implements TableroService {
                     //Carga las letras en la matriz en dependencia de la direccion
                     int[] posicionFinal = new int[2];
                     ubicarPalabra(posicion, tableroDto.getAlto(), tableroDto.getAncho(), tablero, palabras.getPalabra(), direccion, posicionFinal);
-                    int[] pepe = new int[4];
-                    pepe[0] = posicion[0];
-                    pepe[1] = posicion[1];
-                    pepe[2] = posicionFinal[0];
-                    pepe[3] = posicionFinal[1];
-                    hashMap.put(palabras, pepe);
+                    int[] temp = new int[4];
+                    temp[0] = posicion[0];
+                    temp[1] = posicion[1];
+                    temp[2] = posicionFinal[0];
+                    temp[3] = posicionFinal[1];
+                    hashMap.put(palabras, temp);
                     palabrasListado.add(palabras);
                     break;
                 }
@@ -88,17 +88,12 @@ public class TableroServiceImpl implements TableroService {
             System.out.println();
         }
 
-//        String listado = "";
-//        for(int f=0; f<tablero.length; f++) {
-//            listado = (f==tablero.length-1) ?
-//            listado.concat(new String(tablero[f]).concat("")) :
-//            listado.concat(new String(tablero[f]).concat(","));
-//        }
-
+        //Se puede hace una factory
         Tablero sopaLetra = new Tablero();
         sopaLetra.setTablero(listado);
         tableroRepository.save(sopaLetra);
 
+        //Se puede hace una factory
         for (Palabras palabras : palabrasListado) {
             TableroPalabras tableroPalabras = new TableroPalabras();
             tableroPalabras.setTablero(sopaLetra);
