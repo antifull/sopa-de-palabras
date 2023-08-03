@@ -12,10 +12,7 @@ import com.ejemplo.sopadeletras.services.TableroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -38,7 +35,7 @@ public class TableroServiceImpl implements TableroService {
 
         //listado de palabras para el tablero
         List<Palabras> palabrasListado = new ArrayList<>();
-        HashMap hashMap = new HashMap<>();
+        HashMap<Object, Object> hashMap = new HashMap<>();
 
 
         for (Palabras palabras : generaListaPalabras(tableroDto)) {
@@ -92,12 +89,12 @@ public class TableroServiceImpl implements TableroService {
             System.out.println();
         }
 
-        //Se puede hace una factory
+        //Se puede hacer una factory
         Tablero sopaLetra = new Tablero();
         sopaLetra.setTablero(listado);
         tableroRepository.save(sopaLetra);
 
-        //Se puede hace un factory
+        //Se puede hacer una factory
         for (Palabras palabras : palabrasListado) {
             TableroPalabras tableroPalabras = new TableroPalabras();
             tableroPalabras.setTablero(sopaLetra);
@@ -114,7 +111,7 @@ public class TableroServiceImpl implements TableroService {
     }
 
     @Override
-    public List<Palabras> listTablero(Long idTablero) {
+    public List<Palabras> listTablero(UUID idTablero) {
         Tablero tablero = tableroRepository.findTableroById(idTablero);
         List<TableroPalabras> tableroPalabras = tableroPalabrasRepository.findAllByTablero(tablero);
         List<Palabras> palabrasList = new ArrayList<>();
@@ -125,11 +122,11 @@ public class TableroServiceImpl implements TableroService {
     }
 
     /**
-     * @param idTablero
-     * @return
+     * @param idTablero Valor UUID del tablero soleccionado
+     * @return String
      */
     @Override
-    public String viewTablero(Long idTablero) {
+    public String viewTablero(UUID idTablero) {
         return tableroRepository.findTableroById(idTablero).getTablero();
     }
 
@@ -354,39 +351,41 @@ public class TableroServiceImpl implements TableroService {
         }
         int sr = Math.toIntExact(tableroPalabra.getSr());
         int sc = Math.toIntExact(tableroPalabra.getSc())+1;
-        for (int h = 0; h < palabra.get().getPalabra().length(); h++) {
-            lol[sr][sc] = String.valueOf(palabra.get().getPalabra().charAt(h)).toUpperCase();
-            switch (tableroPalabra.getDireccion()) {
-                case "izq_a_der":
-                    //direccion
-                    sc++;
-                    break;
-                case "der_a_izq":
-                    //direccion
-                    sc--;
-                    break;
-                case "arr_a_abj":
-                    sr++;
-                    break;
-                case "abj_a_arr":
-                    sr--;
-                    break;
-                case "diag_se":
-                    sr++;
-                    sc++;
-                    break;
-                case "diag_so":
-                    sr++;
-                    sc--;
-                    break;
-                case "diag_ne":
-                    sr--;
-                    sc++;
-                    break;
-                case "diag_no":
-                    sr--;
-                    sc--;
-                    break;
+        if(palabra.isPresent()){
+            for (int h = 0; h < palabra.get().getPalabra().length(); h++) {
+                lol[sr][sc] = String.valueOf(palabra.get().getPalabra().charAt(h)).toUpperCase();
+                switch (tableroPalabra.getDireccion()) {
+                    case "izq_a_der":
+                        //direccion
+                        sc++;
+                        break;
+                    case "der_a_izq":
+                        //direccion
+                        sc--;
+                        break;
+                    case "arr_a_abj":
+                        sr++;
+                        break;
+                    case "abj_a_arr":
+                        sr--;
+                        break;
+                    case "diag_se":
+                        sr++;
+                        sc++;
+                        break;
+                    case "diag_so":
+                        sr++;
+                        sc--;
+                        break;
+                    case "diag_ne":
+                        sr--;
+                        sc++;
+                        break;
+                    case "diag_no":
+                        sr--;
+                        sc--;
+                        break;
+                }
             }
         }
 

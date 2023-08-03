@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -16,13 +17,18 @@ import java.io.Serializable;
 public class TableroPalabras implements Serializable {
 
     private static final long serialVersionUID = 1L;
+//    @Id
+//    @NonNull
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tablero_palabras_id_seq")
+//    @SequenceGenerator(name = "tablero_palabras_id_seq",  sequenceName = "tablero_palabras_id_seq", initialValue = 1, allocationSize = 1)
+//    @Basic(optional = false)
+//    @Column(name = "id")
+//    private Long id;
     @Id
     @NonNull
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tablero_palabras_id_seq")
-    @SequenceGenerator(name = "tablero_palabras_id_seq",  sequenceName = "tablero_palabras_id_seq", initialValue = 1, allocationSize = 1)
-    @Basic(optional = false)
+    @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @NonNull
     @JsonIgnore

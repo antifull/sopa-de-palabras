@@ -6,10 +6,11 @@ import com.ejemplo.sopadeletras.persistense.Palabras;
 import com.ejemplo.sopadeletras.persistense.Tablero;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface TableroService {
     Tablero addTablero(TableroDto tableroDto);
-    List<Palabras> listTablero(Long idTablero);
-    String viewTablero(Long idTablero);
+    List<Palabras> listTablero(UUID idTablero);
+    String viewTablero(UUID idTablero);
     Boolean solvTablero(UbicacionDto ubicacionDto);
 }

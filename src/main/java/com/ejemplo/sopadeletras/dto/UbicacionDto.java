@@ -6,13 +6,14 @@ import lombok.Data;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Builder
 @Data
 public class UbicacionDto {
 
     @NotNull(message = "EL valor no debe ser nulo")
-    Long idTablero;
+    UUID idTablero;
 
     @NotNull(message = "EL valor no debe ser nulo")
     @Min(message = "El valor no debe ser menor a 0",value = 0)

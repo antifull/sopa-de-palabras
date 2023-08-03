@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,15 +28,15 @@ public class SopaController {
 //        return ResponseEntity.created(tableroService.addTablero(tableroDto));
     }
 
-    @GetMapping(path = "/list")
-    public ResponseEntity<List<Palabras>> listadoPalabrasSopaPalabras(Long idTablero){
+    @GetMapping(path = "/list/{idTablero}")
+    public ResponseEntity<List<Palabras>> listadoPalabrasSopaPalabras(@PathVariable UUID idTablero){
         return new ResponseEntity<>(tableroService.listTablero(idTablero), HttpStatus.OK);
 //        return ResponseEntity.ok(tableroService.listTablero(idTablero));
 
     }
 
-    @GetMapping(path = "/view")
-    public ResponseEntity<String> verSopaPalabras(Long idTablero){
+    @GetMapping(path = "/view/{idTablero}")
+    public ResponseEntity<String> verSopaPalabras(@PathVariable UUID idTablero){
         return new ResponseEntity<>(tableroService.viewTablero(idTablero), HttpStatus.OK);
     }
 

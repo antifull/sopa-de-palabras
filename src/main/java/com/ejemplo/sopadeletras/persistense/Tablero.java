@@ -3,7 +3,7 @@ package com.ejemplo.sopadeletras.persistense;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
+//import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -22,22 +23,21 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tablero")
-@TypeDefs({
-        @TypeDef(
-                name = "string-array",
-                typeClass = StringArrayType.class
-        )
-})
 public class Tablero implements Serializable {
 
     private static final long serialVersionUID = 1L;
+//    @Id
+//    @NonNull
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tablero_id_seq")
+//    @SequenceGenerator(name = "tablero_id_seq",  sequenceName = "tablero_id_seq", initialValue = 1, allocationSize = 1)
+//    @Basic(optional = false)
+//    @Column(name = "id")
+//    private Long id;
     @Id
     @NonNull
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tablero_id_seq")
-    @SequenceGenerator(name = "tablero_id_seq",  sequenceName = "tablero_id_seq", initialValue = 1, allocationSize = 1)
-    @Basic(optional = false)
+    @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Basic(optional = false)
     @Column(name = "tablero")
