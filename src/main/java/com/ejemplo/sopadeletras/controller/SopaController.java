@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class SopaController {
     private TableroService tableroService;
 
     @PostMapping(path = "/add", consumes = "application/json")
-    public ResponseEntity<Tablero> crearSopaPalabras(@RequestBody TableroDto tableroDto){
+    public ResponseEntity<Tablero> crearSopaPalabras(@RequestBody @Valid TableroDto tableroDto){
         return new ResponseEntity<>(tableroService.addTablero(tableroDto), HttpStatus.CREATED);
 //        return ResponseEntity.created(tableroService.addTablero(tableroDto));
     }
@@ -37,15 +38,15 @@ public class SopaController {
 
     @GetMapping(path = "/view/{idTablero}")
     public ResponseEntity<String> verSopaPalabras(@PathVariable UUID idTablero){
-        return new ResponseEntity<>(tableroService.viewTablero(idTablero), HttpStatus.OK);
+        return new ResponseEntity<>(tableroService.viewTablero(idTablero).getTablero(), HttpStatus.OK);
     }
 
     /**
      * @param ubicacionDto Identificador del tablero
      * @return ResponseEntity<> listado de palabras
      */
-    @PutMapping(path = "/solv", consumes = "application/json")
-    public ResponseEntity<?> encontrarPalabrasSopaPalabras(@RequestBody UbicacionDto ubicacionDto){
-        return tableroService.solvTablero(ubicacionDto) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping(path = "/solv/{idTablero}", consumes = "application/json")
+    public ResponseEntity<?> encontrarPalabrasSopaPalabras(@PathVariable UUID idTablero, @RequestBody @Valid UbicacionDto ubicacionDto){
+        return tableroService.solvTablero(idTablero, ubicacionDto) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
