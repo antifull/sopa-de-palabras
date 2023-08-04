@@ -11,6 +11,6 @@ import java.util.UUID;
 public interface TableroService {
     Tablero addTablero(TableroDto tableroDto);
     List<Palabras> listTablero(UUID idTablero);
-    String viewTablero(UUID idTablero);
-    Boolean solvTablero(UbicacionDto ubicacionDto);
+    Tablero viewTablero(UUID idTablero);
+    Boolean solvTablero(UUID idTablero, UbicacionDto ubicacionDto);
 }

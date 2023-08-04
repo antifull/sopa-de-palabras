@@ -126,8 +126,8 @@ public class TableroServiceImpl implements TableroService {
      * @return String
      */
     @Override
-    public String viewTablero(UUID idTablero) {
-        return tableroRepository.findTableroById(idTablero).getTablero();
+    public Tablero viewTablero(UUID idTablero) {
+        return tableroRepository.findById(idTablero).get();
     }
 
     /**
@@ -135,8 +135,8 @@ public class TableroServiceImpl implements TableroService {
      * @return List<Palabras>
      */
     @Override
-    public Boolean solvTablero(UbicacionDto ubicacionDto) {
-        Tablero tablero = tableroRepository.findTableroById(ubicacionDto.getIdTablero());
+    public Boolean solvTablero(UUID idTablero, UbicacionDto ubicacionDto) {
+        Tablero tablero = tableroRepository.findTableroById(idTablero);
         List<TableroPalabras> tableroPalabras = tableroPalabrasRepository.findAllByTablero(tablero);
         for (TableroPalabras tableroPalabra : tableroPalabras) {
             if (
